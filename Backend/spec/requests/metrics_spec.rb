@@ -12,64 +12,89 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/metrics", type: :request do
+RSpec.describe '/metrics', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Metric. As you add validations to Metric, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    {
+      name: 'pv',
+      value: 5
+    }
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    {}
+  end
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
   # MetricsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
-  let(:valid_headers) {
+  let(:valid_headers) do
     {}
-  }
+  end
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Metric.create! valid_attributes
+  let(:valid_response) do
+    {
+      name: 'pv',
+      value: 5.0
+    }.stringify_keys
+  end
+
+  let(:response_body) do
+    JSON.parse(response.body)
+  end
+
+  describe 'GET /index' do
+    let!(:metric) do
+      create(:metric)
+    end
+
+    it 'renders a successful response' do
       get metrics_url, headers: valid_headers, as: :json
       expect(response).to be_successful
+      expect(response_body.count).to eq(1)
+      expect(response_body.first).to include(valid_response)
     end
   end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Metric" do
-        expect {
+  describe 'POST /create' do
+    before do
+      travel_to Time.current
+    end
+
+    context 'with valid parameters' do
+      it 'creates a new Metric' do
+        expect do
           post metrics_url,
                params: { metric: valid_attributes }, headers: valid_headers, as: :json
-        }.to change(Metric, :count).by(1)
+        end.to change(Metric, :count).by(1)
       end
 
-      it "renders a JSON response with the new metric" do
+      it 'renders a JSON response with the new metric' do
         post metrics_url,
              params: { metric: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including('application/json'))
+        expect(response_body).to include(valid_response)
+        expect(Time.parse(response_body['timestamp'])).to eq(Time.current)
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Metric" do
-        expect {
+    context 'with invalid parameters' do
+      it 'does not create a new Metric' do
+        expect do
           post metrics_url,
                params: { metric: invalid_attributes }, as: :json
-        }.to change(Metric, :count).by(0)
+        end.to change(Metric, :count).by(0)
       end
 
-      it "renders a JSON response with errors for the new metric" do
+      it 'renders a JSON response with errors for the new metric' do
         post metrics_url,
              params: { metric: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response).to have_http_status(:bad_request)
+        expect(response.content_type).to match(a_string_including('application/json'))
       end
     end
   end

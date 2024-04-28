@@ -1,0 +1,2 @@
+class MetricAverage < ApplicationRecord
+end

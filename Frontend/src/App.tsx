@@ -5,6 +5,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import MetricForm from "./MetricForm";
+import MetricsAveragesChart from "./MetricsAveragesChart";
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
         <GridItem pl="2" area={"nav"}>
           <MetricForm />
         </GridItem>
-        <GridItem pl="2" bg="green.300" area={"main"}>
-          Main
+        <GridItem pl="2" area={"main"}>
+          <MetricsAveragesChart />
         </GridItem>
         <GridItem pl="2" bg="blue.300" area={"footer"}>
           Footer

@@ -10,6 +10,8 @@ import {
   Legend,
 } from "recharts";
 
+import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+
 function transformData(data) {
   return data.reduce((accumulator, current) => {
     const timestamp = current.timestamp;
@@ -26,9 +28,20 @@ function transformData(data) {
   }, []);
 }
 
+function eventsFromData(data) {
+  return data.reduce((accumulator: string[], current) => {
+    if (!accumulator.includes(current.name)) {
+      accumulator.push(current.name);
+    }
+    return accumulator;
+  }, []);
+}
+
 export default function MetricsAveragesChart() {
   const [dataKeys, setDataKeys] = useState([]);
   const [timespan, setTimespan] = useState("minute");
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -37,7 +50,7 @@ export default function MetricsAveragesChart() {
             new URLSearchParams({
               timespan: timespan,
               from: "2024-04-28T08:10:00.000Z",
-              to: "2024-04-28T10:03:00.000Z",
+              to: "2024-05-28T10:03:00.000Z",
             }),
           {
             headers: {
@@ -47,9 +60,9 @@ export default function MetricsAveragesChart() {
         )
           .then((response) => response.json())
           .then((data) => {
-            data = transformData(data);
-            console.log(data);
-            setDataKeys(data);
+            const chartData = transformData(data);
+            setDataKeys(chartData);
+            setEvents(eventsFromData(data));
           });
       } catch (err) {
         console.log(err);
@@ -57,7 +70,7 @@ export default function MetricsAveragesChart() {
     }
 
     fetchData();
-  }, [timespan]);
+  }, [dataKeys, events, timespan]);
 
   return (
     <div className="row">
@@ -78,10 +91,19 @@ export default function MetricsAveragesChart() {
               <YAxis />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <Legend />
-              <Line type="monotone" dataKey="pv_average" stroke="#FB8833" />
-              {/* <Line type="monotone" dataKey="leads" stroke="#17A8F5" /> */}
+              {events.map(name => 
+              <Line key={name} type="monotone" name={name} dataKey={`${name}_average`} stroke="#FB8833" /> 
+              )}
             </LineChart>
           </ResponsiveContainer>
+
+          <RadioGroup onChange={setTimespan} value={timespan}>
+            <Stack direction="row">
+              <Radio value="minute">Minute</Radio>
+              <Radio value="hour">Hour</Radio>
+              <Radio value="day">Day</Radio>
+            </Stack>
+          </RadioGroup>
         </div>
       </div>
     </div>

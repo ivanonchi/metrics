@@ -10,7 +10,7 @@ import {
   Legend,
 } from "recharts";
 
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import TimespanSelector from "./TimespanSelector";
 
 function transformData(data) {
   return data.reduce((accumulator, current) => {
@@ -72,6 +72,7 @@ export default function MetricsAveragesChart() {
     fetchData();
   }, [dataKeys, events, timespan]);
 
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -91,19 +92,19 @@ export default function MetricsAveragesChart() {
               <YAxis />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <Legend />
-              {events.map(name => 
-              <Line key={name} type="monotone" name={name} dataKey={`${name}_average`} stroke="#FB8833" /> 
-              )}
+              {events.map((name) => (
+                <Line
+                  key={name}
+                  type="monotone"
+                  name={name}
+                  dataKey={`${name}_average`}
+                  stroke="#FB8833"
+                />
+              ))}
             </LineChart>
           </ResponsiveContainer>
 
-          <RadioGroup onChange={setTimespan} value={timespan}>
-            <Stack direction="row">
-              <Radio value="minute">Minute</Radio>
-              <Radio value="hour">Hour</Radio>
-              <Radio value="day">Day</Radio>
-            </Stack>
-          </RadioGroup>
+          <TimespanSelector onChange={setTimespan} />
         </div>
       </div>
     </div>

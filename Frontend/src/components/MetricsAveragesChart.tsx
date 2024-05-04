@@ -11,31 +11,7 @@ import {
 } from "recharts";
 
 import TimespanSelector from "./TimespanSelector";
-
-function transformData(data) {
-  return data.reduce((accumulator, current) => {
-    const timestamp = current.timestamp;
-    const rechartData = accumulator.find((o) => o.timestamp === timestamp);
-    if (!rechartData) {
-      accumulator.push({
-        timestamp: current.timestamp,
-        [`${current.name}_average`]: current.average,
-      });
-    } else {
-      rechartData[`${current.name}_average`] = current.average;
-    }
-    return accumulator;
-  }, []);
-}
-
-function eventsFromData(data) {
-  return data.reduce((accumulator: string[], current) => {
-    if (!accumulator.includes(current.name)) {
-      accumulator.push(current.name);
-    }
-    return accumulator;
-  }, []);
-}
+import { fetchMetrics } from "../api/fetch_metrics";
 
 export default function MetricsAveragesChart() {
   const [dataKeys, setDataKeys] = useState([]);
@@ -43,34 +19,21 @@ export default function MetricsAveragesChart() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        await fetch(
-          "http://localhost:3000/metric_averages?" +
-            new URLSearchParams({
-              timespan: timespan,
-              from: "2024-04-28T08:10:00.000Z",
-              to: "2024-05-28T10:03:00.000Z",
-            }),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            const chartData = transformData(data);
-            setDataKeys(chartData);
-            setEvents(eventsFromData(data));
-          });
-      } catch (err) {
-        console.log(err);
+    let ignore = false;
+    fetchMetrics(
+      timespan,
+      "2024-04-28T08:10:00.000Z",
+      "2024-05-28T08:10:00.000Z"
+    ).then(({ chartData, eventNames }) => {
+      if (!ignore) {
+        setDataKeys(chartData);
+        setEvents(eventNames);
       }
+    });
+    return () => {
+      ignore = true;
     }
-
-    fetchData();
-  }, [dataKeys, events, timespan]);
+  }, [timespan]);
 
   return (
     <div className="row">

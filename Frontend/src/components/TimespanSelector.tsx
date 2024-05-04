@@ -6,7 +6,7 @@ export default function TimespanSelector(onChangeTimespan: {onChange: (value: st
 
   const changeTimespan = (value: string) => {
     setTimespan(value);
-    onChangeTimespan.onChange(timespan);
+    onChangeTimespan.onChange(value);
   }
 
   return (

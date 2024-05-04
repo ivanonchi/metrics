@@ -4,8 +4,8 @@ import {
   GridItem,
   Heading,
 } from "@chakra-ui/react";
-import MetricForm from "./MetricForm";
-import MetricsAveragesChart from "./MetricsAveragesChart";
+import MetricForm from "./components/MetricForm";
+import MetricsAveragesChart from "./components/MetricsAveragesChart";
 
 function App() {
   return (

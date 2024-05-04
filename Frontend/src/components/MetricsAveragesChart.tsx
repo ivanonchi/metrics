@@ -72,7 +72,6 @@ export default function MetricsAveragesChart() {
     fetchData();
   }, [dataKeys, events, timespan]);
 
-
   return (
     <div className="row">
       <div className="col-md-12">

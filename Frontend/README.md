@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# Metrics web service frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+The frontend utilizes React 18, and Vite for the development tooling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I used React as it is the most used frontend framework in the world and I wanted to challenge myself and get more used to it, and also the extensive number of libraries and documentation available.
 
-## Expanding the ESLint configuration
+I chose Vite as it is known for its superb DX (fast startup, Hot Module Replacement and build times), and as for the scale of the current project, a full-fledged React framework such as Next.js would be overkill.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+As for the UI, I chose the Chakra library because it is simple to use and has all the components I would need for the project.
 
-- Configure the top-level `parserOptions` property like this:
+## App structure
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+The app follows a standard Vite + React project structure. I enabled Typescript but I noticed I still have quite a lot to learn properly.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Due to the current project size, I am just using react states but should consider using a reducer function or libraries such as Redux, Recoil or Jotai, as the complexity increases.
+
+### Components
+
+#### MetricForm
+
+The form to post metrics.
+
+### MetricsAveragesChart
+
+This is the main component that holds the chart component and its controls. It also has the effect hook that initiates the API call to fetch MetricAverages data.
+
+#### TimespanSelector
+
+Radio group to select the timespan (minute, hour, day).
+
+#### TimeRangeSlider
+
+Slider with two knots to select the time range of metric averages to be shown in the chart.
+The implementation is missing labels so there is room for ux improvement.

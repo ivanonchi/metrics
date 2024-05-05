@@ -13,7 +13,7 @@ function App() {
       <Grid
         templateAreas={`"header header"
                   "nav main"
-                  "nav footer"`}
+                  "footer footer"`}
         gridTemplateRows={"50px 1fr 30px"}
         gridTemplateColumns={"300px 1fr"}
         gap="1"
@@ -22,7 +22,7 @@ function App() {
       >
         <GridItem pl="2" area={"header"} borderBottom="1px">
           <Center>
-            <Heading>Event console</Heading>
+            <Heading>Metrics console</Heading>
           </Center>
         </GridItem>
         <GridItem pl="2" area={"nav"}>
@@ -31,8 +31,8 @@ function App() {
         <GridItem pl="2" area={"main"}>
           <MetricsAveragesChart />
         </GridItem>
-        <GridItem pl="2" bg="blue.300" area={"footer"}>
-          Footer
+        <GridItem pl="2" area={"footer"}>
+          <Center>&copy; {new Date().getFullYear()} Ivan Luque</Center>
         </GridItem>
       </Grid>
     </>

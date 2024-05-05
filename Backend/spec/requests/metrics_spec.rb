@@ -46,19 +46,6 @@ RSpec.describe '/metrics', type: :request do
     JSON.parse(response.body)
   end
 
-  describe 'GET /index' do
-    let!(:metric) do
-      create(:metric)
-    end
-
-    it 'renders a successful response' do
-      get metrics_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-      expect(response_body.count).to eq(1)
-      expect(response_body.first).to include(valid_response)
-    end
-  end
-
   describe 'POST /create' do
     before do
       travel_to Time.current

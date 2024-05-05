@@ -11,7 +11,7 @@ import {
   StackDivider,
 } from "@chakra-ui/react";
 
-function MetricForm() {
+export default function MetricForm() {
   const postMetric = async (event: Event) => {
     event.preventDefault();
     if (event.target instanceof HTMLFormElement) {
@@ -58,5 +58,3 @@ function MetricForm() {
     </Card>
   );
 }
-
-export default MetricForm;

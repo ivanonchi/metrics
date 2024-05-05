@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :metrics, only: [:create]
+  resources :metrics, only: [:create, :show]
   resources :metric_averages, only: [:index]
 end

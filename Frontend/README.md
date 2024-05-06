@@ -20,7 +20,7 @@ Due to the current project size, I am just using react states but should conside
 
 #### MetricForm
 
-The form to post metrics.
+The form to post metrics. I implemented the API call in the same component but extracting to a separate api module would be advisable.
 
 ### MetricsAveragesChart
 
@@ -34,3 +34,9 @@ Radio group to select the timespan (minute, hour, day).
 
 Slider with two knots to select the time range of metric averages to be shown in the chart.
 The implementation is missing labels so there is room for ux improvement.
+
+### API implementation
+
+Implemented in the fetch_metrics.ts file, it handles the http request to get the metric average data, and transforms the raw data into a format that can be read by the chart library.
+
+At the current size of the project it is OK, but I would usually implement a wrapper around the http calls, and place data transformation for visualization in a separate presenter source file.

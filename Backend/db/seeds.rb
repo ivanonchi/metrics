@@ -1,9 +1,12 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Seed for demo purposes. Do not use in production!
+
+current = 2.months.ago
+to = Time.current
+
+loop do
+  Metric.create(name: 'pv', value: rand * 100, timestamp: current)
+  current += (rand * 60).seconds
+  break unless current < to
+end
+
+MetricAverage.averages_per_timespan

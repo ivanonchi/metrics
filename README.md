@@ -17,3 +17,4 @@ Read the following documentation for more details:
 
 - [Backend](./Backend/README.md)
 - [Frontend](./Frontend/README.md)
+- [API](./API_specifications.md)

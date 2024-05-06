@@ -40,3 +40,13 @@ The implementation is missing labels so there is room for ux improvement.
 Implemented in the fetch_metrics.ts file, it handles the http request to get the metric average data, and transforms the raw data into a format that can be read by the chart library.
 
 At the current size of the project it is OK, but I would usually implement a wrapper around the http calls, and place data transformation for visualization in a separate presenter source file.
+
+## Running the frontend
+
+Start the dev server:
+
+```
+npm run dev
+```
+
+Open http://localhost:5173/

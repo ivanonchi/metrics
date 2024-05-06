@@ -83,6 +83,12 @@ Due to time constraints, the implementation just checks for the presence of the 
 
 rails db:create
 
+* Seed dummy data for demo purposes
+
+ ```
+ rails db:seed
+ ```
+
 * How to run the test suite
 
 bundle exec rspec
@@ -95,6 +101,12 @@ Use this command to set the scheduler and get the job running each minute
 
 ```
 whenever --update-crontab
+```
+
+* Run in development
+
+```
+bin/rails server
 ```
 
 * Deployment instructions

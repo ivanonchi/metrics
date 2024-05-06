@@ -2,7 +2,7 @@ import { Box, RadioGroup, Stack, Radio, Text, Center } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function TimespanSelector({ onChange }) {
-  const [timespan, setTimespan] = useState("minute");
+  const [timespan, setTimespan] = useState("day");
 
   const changeTimespan = (value: string) => {
     setTimespan(value);

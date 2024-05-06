@@ -17,13 +17,13 @@ import { Box, Card, CardBody, Stack, StackDivider } from "@chakra-ui/react";
 
 export default function MetricsAveragesChart() {
   const [dataKeys, setDataKeys] = useState([]);
-  const [timespan, setTimespan] = useState("minute");
+  const [timespan, setTimespan] = useState("day");
   const [events, setEvents] = useState([]);
 
   const now = new Date();
   const max = now.getTime();
-  const min = new Date().setFullYear(now.getFullYear() - 1);
-  const defaultMin = new Date().setMonth(now.getMonth() - 1);
+  const min = new Date().setMonth(now.getMonth() - 1);
+  const defaultMin = new Date().setDate(now.getDate() - 5);
   const [timeRange, setTimeRange] = useState([defaultMin, max]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 # Seed for demo purposes. Do not use in production!
 
-current = 2.months.ago
+current = 1.months.ago
 to = Time.current
 
 loop do
@@ -9,4 +9,4 @@ loop do
   break unless current < to
 end
 
-MetricAverage.averages_per_timespan
+MetricAverage.calculate_averages
